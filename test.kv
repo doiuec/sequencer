@@ -1,0 +1,436 @@
+#:kivy 1.0.9
+#:set inst 'kick'
+
+#-*- coding: utf-8 -*-
+
+sequencer: # ルートに追加
+
+<sequencer>:
+    ball: pong_ball
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+
+        # 画面上部
+        BoxLayout:
+            padding: 10, 10, 10, 10
+            size_hint_y: 0.2
+
+            Label:
+                size_hint_x: 0.1
+                text: "BPM"
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 0.7, 0.9, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            BPM:
+                size_hint_x: 0.3
+                
+            Contorol:
+                size_hint_x: 0.6
+
+        BoxLayout:
+            size_hint_y: 0.6
+            # パネル 音を入れる部分
+            Inst:
+                size_hint_x: 0.2
+                id: inst
+                center: self.parent.center
+            PongBall:
+                id: pong_ball
+                size_hint_x: 0.01
+            Panel:
+                size_hint_x: 0.8
+            
+
+        # 画面下部 音を加工する部分
+        Processing:
+            size_hint_y: 0.2
+
+
+
+<BPM@GridLayout>:
+    cols: 1
+    rows: 2
+    Slider:
+        id: bpm
+        step: 1
+        min: 120
+        max: 180
+        on_value: app.root.change_bpm(*args)
+        canvas.before:
+            Color:
+                rgba: 0.3, 0.7, 0.9, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+    Label:
+        id: bpm_value
+        font_size: 20
+        text: "{}".format(bpm.value)
+        canvas.before:
+            Color:
+                rgba: 0.3, 0.7, 0.9, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+<Inst@GridLayout>:
+    cols: 1
+    rows: 1
+   #  padding: 20, 30, 20, 10
+    
+    Label:
+        text: "TimeLine"
+        font_size: 20
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    #Label:
+    #    text: "snare"
+    #    font_size: 20
+    #    canvas.before:
+    #        Color:
+    #            rgba: 0.5, 0.5, 0.5, 1
+    #        Rectangle:
+    #            pos: self.pos
+    #            size: self.size
+#
+    #Label:
+    #    text: "close-hi"
+    #    font_size: 20
+    #    canvas.before:
+    #        Color:
+    #            rgba: 0.5, 0.5, 0.5, 1
+    #        Rectangle:
+    #            pos: self.pos
+    #            size: self.size
+#
+    #Label:
+    #    text: "open-hi"
+    #    font_size: 20
+    #    canvas.before:
+    #        Color:
+    #            rgba: 0.5, 0.5, 0.5, 1
+    #        Rectangle:
+    #            pos: self.pos
+    #            size: self.size
+#
+    #Label:
+    #    text: "cymbal"
+    #    font_size: 20
+    #    canvas.before:
+    #        Color:
+    #            rgba: 0.5, 0.5, 0.5, 1
+    #        Rectangle:
+    #            pos: self.pos
+    #            size: self.size
+
+
+
+<Processing@GridLayout>:
+    cols: 3
+    rows: 1
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 1
+            # Label:
+            #     size_hint_x: 1
+            #     id: reverb_value
+            #     font_size: 20
+            #     #text: "{}".format(reverb.value)
+            #     canvas.before:
+            #         Color:
+            #             rgba: 1, 0.5, 0.3, 1
+            #         Rectangle:
+            #             pos: self.pos
+            #             size: self.size
+                
+            Spinner:
+                size_hint_x: 2
+                orientation: 'vertical'
+                id: instruments
+                text: 'kick'
+                values: 'kick', 'snare', 'hihat'
+                on_text: app.root.change_inst(self.text)
+                background_color: (1, 0.5, 0.3, 1)
+                canvas.before:
+                    Color:
+                        rgba: 1, 0.5, 0.3, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            #Slider:
+            #    size_hint_x: 1
+            #    orientation: 'vertical'
+            #    id: reverb
+            #    step: 1
+            #    min: 44100
+            #    max: 88200
+            #    canvas.before:
+            #        Color:
+            #            rgba: 1, 0.5, 0.3, 1
+            #        Rectangle:
+            #            pos: self.pos
+            #            size: self.size
+            
+            Label:
+                size_hint_x: 1
+                id: echo_value
+                font_size: 20
+                text: "{}".format(echo.value)
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 1, 0.5, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Slider:
+                size_hint_x: 1
+                orientation: 'vertical'
+                id: echo
+                step: 1
+                min: 0
+                max: 100
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 1, 0.5, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            
+            Label:
+                size_hint_x: 1
+                id: volume_value
+                font_size: 20
+                text: "{}".format(volume.value)
+                canvas.before:
+                    Color:
+                        rgba: 0.5, 0.3, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Slider:
+                size_hint_x: 1
+                orientation: 'vertical'
+                id: volume
+                step: 1
+                min: 0
+                max: 100
+                on_value: app.root.change_vol(*args)
+                canvas.before:
+                    Color:
+                        rgba: 0.5, 0.3, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            
+
+        BoxLayout:
+            size_hint_y: 0.2
+            Label:
+                font_size: 20
+                text: "Instrument"
+                canvas.before:
+                    Color:
+                        rgba: 1, 0.5, 0.2, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                
+
+            Label:
+                text: "Echo"
+                font_size: 20
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 1, 0.5, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+            Label:
+                text: "Volume"
+                font_size: 20
+                canvas.before:
+                    Color:
+                        rgba: 0.5, 0.3, 1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+
+<Contorol@GridLayout>:
+
+    cols: 4
+    rows: 1
+    padding: 20, 20, 20, 20
+    Button:
+        size_hint_x: 0.3
+        id: play
+        font_size: 20
+        text: "PLAY"
+        on_press: app.root.button_play()
+
+    ToggleButton:
+        size_hint_x: 0.3
+        id: loop
+        font_size: 20
+        text: "LOOP"
+        on_press: app.root.button_loop()
+
+    Button:
+        size_hint_x: 0.3
+        id: STOP
+        font_size: 20
+        text: "STOP/RESET"
+        on_press: app.root.button_stop()
+
+    Button:
+        size_hint_x:0.1
+        id: quit
+        font_size: 10
+        text: "QUIT"
+        on_press: app.quit()
+
+
+<Panel@GridLayout>:
+    cols: 16
+    rows: 1
+
+    ToggleButton:
+        id: kick1
+        on_press: app.root.sound_trigger_kick(1)
+    ToggleButton:
+        id: kick2
+        on_press: app.root.sound_trigger_kick(2)
+    ToggleButton:
+        id: kick3
+        on_press: app.root.sound_trigger_kick(3)
+    ToggleButton:
+        id: kick4
+        on_press: app.root.sound_trigger_kick(4)
+    ToggleButton:
+        id: kick5
+        on_press: app.root.sound_trigger_kick(5)
+    ToggleButton:
+        id: kick6
+        on_press: app.root.sound_trigger_kick(6)
+    ToggleButton:
+        id: kick7
+        on_press: app.root.sound_trigger_kick(7)
+    ToggleButton:
+        id: kick8
+        on_press: app.root.sound_trigger_kick(8)
+    ToggleButton:
+        id: kick9
+        on_press: app.root.sound_trigger_kick(9)
+    ToggleButton:
+        id: kick10
+        on_press: app.root.sound_trigger_kick(10)
+    ToggleButton:
+        id: kick11
+        on_press: app.root.sound_trigger_kick(11)
+    ToggleButton:
+        id: kick12
+        on_press: app.root.sound_trigger_kick(12)
+    ToggleButton:
+        id: kick13
+        on_press: app.root.sound_trigger_kick(13)
+    ToggleButton:
+        id: kick14
+        on_press: app.root.sound_trigger_kick(14)
+    ToggleButton:
+        id: kick15
+        on_press: app.root.sound_trigger_kick(15)
+    ToggleButton:
+        id: kick16
+        on_press: app.root.sound_trigger_kick(16)
+
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(1)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(2)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(3)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(4)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(5)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(6)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(7)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(8)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(9)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(10)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(11)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(12)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(13)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(14)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(15)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_snare(16)
+#
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(1)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(2)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(3)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(4)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(5)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(6)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(7)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(8)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(9)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(10)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(11)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(12)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(13)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(14)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(15)
+    #ToggleButton:
+    #    on_press: app.root.sound_trigger_hihat(16)
+
+
+<PongBall>:
+    # size: 0.1, 0.1 
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: 5, 500
